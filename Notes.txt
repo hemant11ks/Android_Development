@@ -1,6 +1,16 @@
 Android Notes:
 
+Android Become Open source because of the "Open Handset Alliance":
+
+
+Basic:
+Android OS Deep Dive:
+Multitasking - Navigation - App Lifecycle:
+
+1. 
+
 Setup and Prerequisites - Installing Java JDK and Android Studio
+
 Java Fundamentals - Essential concepts for Android development
 Project Structure - Understanding key files and directories
 UI Basics - Layouts and common UI components
