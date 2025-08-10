@@ -1,0 +1,119 @@
+1. Actvity Life Cycle:
+
+The Android Activity Lifecycle is a set of states an activity can be in, from when it is first created until it is destroyed. It's a fundamental concept in Android development because it helps you manage how your app behaves when the user navigates, receives a phone call, or rotates their device. The lifecycle is managed by a series of callback methods that the system calls as the activity's state changes.
+
+Key Lifecycle States and Callbacks
+The activity moves through three main states: Resumed, Paused, and Stopped. You manage these states by overriding specific callback methods in your Activity class. The code in the Canvas you selected is a great example of this.
+
+Created State
+onCreate(): This is the very first callback. It's called once when the activity is first created. It's the place for all your one-time setup, like initializing the user interface and setting up variables.
+
+Example from the Canvas: The super.onCreate(savedInstanceState) call and setContent block are inside this method, ensuring the layout is created when the app starts.
+
+Started and Resumed States
+These are "visible" states where the user can see or interact with your activity.
+
+onStart(): Called when the activity is about to become visible to the user. This happens right after onCreate() or onRestart(). You should initialize resources that are needed while the activity is visible.
+
+onResume(): Called when the activity has come into the foreground and the user can now interact with it. This is considered the Resumed state. You would start animations, access the camera, or handle other user-focused actions here.
+
+Paused and Stopped States
+These states occur when your activity is partially or completely hidden from the user.
+
+onPause(): The system calls this when the user is leaving your activity. It's a brief moment, but you should save any user data or stop any ongoing animations. An example is when a dialog or another activity appears on top of your app.
+
+onStop(): Called when the activity is no longer visible to the user. This can happen if the user navigates to a different app or presses the Home button. You should release heavy resources here, like database connections.
+
+onRestart(): Called after your activity has been stopped (onStop()) but is about to be started again. This happens, for instance, if the user returns to your app from the Home screen.
+
+Destroyed State
+onDestroy(): This is the final callback. It's called just before the activity is destroyed, either because the user explicitly closed it or the system is reclaiming memory. All final cleanup should be done here.
+
+-----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
+
+2. Tasks, Back Stack and Launch Modes:
+
+Tasks, the back stack, and launch modes are fundamental to how Android manages the flow of activities within your app and between different apps. They define the user experience and how your app behaves when users navigate.
+
+Tasks
+A Task is a collection of activities that a user interacts with to perform a certain job. Think of it as a logical container or a stack of cards. For example, if you open a web browser and click a link, the browser might open a new activity to show the web page. Both the browser and the web page activity are part of the same task.
+
+A task is a stack of activities. The root activity is at the bottom of the stack, and the activity the user is currently viewing is at the top. The user can switch between tasks without losing their place. When you press the recent apps button, you see all the tasks your device is currently running.
+
+The Back Stack
+The Back Stack is the core data structure that manages the activities within a task. It's a Last-In, First-Out (LIFO) stack.
+
+Here's how it works:
+
+When a user starts a new activity, it's pushed onto the top of the back stack. The previous activity remains in the stack but is stopped.
+
+When the user presses the Back button, the current activity at the top of the stack is popped off and destroyed. The activity below it then resumes.
+
+When the last activity is popped off the back stack, the entire task is finished.
+
+Example:
+Imagine you start your app and go through three activities: Activity A (main screen) -> Activity B (details page) -> Activity C (settings).
+
+Start app: Activity A is at the bottom of the stack.
+
+Navigate to B: Activity B is pushed on top. Stack: [A, B]
+
+Navigate to C: Activity C is pushed on top. Stack: [A, B, C]
+
+Press Back: Activity C is popped. Activity B is resumed. Stack: [A, B]
+
+Press Back again: Activity B is popped. Activity A is resumed. Stack: [A]
+
+Press Back again: Activity A is popped. The task is finished.
+
+Launch Modes
+Launch Mode is an attribute you can set in your AndroidManifest.xml file to control how a new instance of an activity is associated with its task. This is where you can change the default back stack behavior.
+
+There are four launch modes:
+
+standard (Default) 🚶‍♀️
+
+Behavior: This is the default mode. A new instance of the activity is created and pushed onto the back stack every time it's started, even if an instance already exists. Each instance has its own lifecycle.
+
+Example: A social media post detail page. If you click on three different posts, three separate instances of the same PostDetailActivity will be created and stacked on top of each other.
+
+singleTop 🎯
+
+Behavior: A new instance of the activity is only created if it's not already at the top of the back stack. If it is already at the top, the system simply calls its onNewIntent() method instead of creating a new instance.
+
+Example: A news app's ArticleActivity. If you are already viewing an article and a notification for the same article arrives, the system won't create a new instance. It will reuse the existing one, saving resources and preventing a duplicate back stack entry.
+
+singleTask 🏡
+
+Behavior: The system will always create a new task for this activity (if one doesn't exist) and place it at the root. If an instance of the activity already exists in any task, the system brings that task to the foreground and calls onNewIntent() on the existing instance. Crucially, all other activities on top of this activity in its task are destroyed.
+
+Example: The home screen of an email app. If you're deep in a conversation and then navigate back to the home screen activity, the system will clear all the conversation activities on top of it, returning you to the root of that task.
+
+singleInstance 👑
+
+Behavior: This is an even stricter version of singleTask. The activity is the only activity in its task. If it starts another activity, that new activity is started in a separate task. This ensures no other activity can be placed in the same task as this one.
+
+Example: A live video chat or a phone call activity. This activity needs to run in its own dedicated space, isolated from the rest of the application's flow. When you navigate away and come back, it's always the only thing in its task.
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
