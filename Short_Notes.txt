@@ -95,6 +95,23 @@ Behavior: This is an even stricter version of singleTask. The activity is the on
 
 Example: A live video chat or a phone call activity. This activity needs to run in its own dedicated space, isolated from the rest of the application's flow. When you navigate away and come back, it's always the only thing in its task.
 
+-----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
+
+Tasks, Back Stack and Launch Modes:
+
+1. Tasks: It is stack of activities that user interacts with to perform a certain Job. In which the root activity is at the bottom of the stack.
+
+2. Launch Modes: It is an attribute which is set in AndroidManifiest.xml file to control new instance of the activity. In this we can change the default back stack behavior.
+There are four launch modes:
+
+i.   standard(Default) : A new instance of activity is created or pushed onto stack every time its started even if an instance already exists.
+ii.  singleTop : A new instance of activity is only created if its not already at thr top of the stack if its already present at top its simply call onNewIntent() method.
+iii. singleTask : In this system always create a new task for the activity if doest not exist and place it on root, if instance of activty already exist system bring that task on foreground
+and calls onNewInstance() on the existing instance.
+iv.  singleInstance: Its even strict version of single task in this only activty in its task if it start another activity that new activity is start in seperate actvity. It ensure no other
+activity can be placed in same task as this one.
+
+
 
 
 
